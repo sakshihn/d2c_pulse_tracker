@@ -4,7 +4,7 @@ import json
 page = 1
 
 while True:
-    url = f"https://plumgoodness.com/products.json?page={page}"
+    url = f"https://mcaffeine.com/products.json?page={page}"
     response = requests.get(url)
     print("Page:", page, "Status code:", response.status_code)
 
