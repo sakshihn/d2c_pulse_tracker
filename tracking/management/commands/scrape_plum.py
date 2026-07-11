@@ -1,15 +1,17 @@
 import time
 import requests
 from django.core.management.base import BaseCommand
-from tracking.models import Product
+from tracking.models import Product, PriceHistory
+
+
 class Command(BaseCommand):
-    help = "Scrapes Minimalist products and saves them to the database"
+    help = "Scrapes Plum Goodness products and saves them to the database"
 
     def handle(self, *args, **options):
         page = 1
 
         while True:
-            url = f"https://beminimalist.co/products.json?page={page}"
+            url = f"https://plumgoodness.com/products.json?page={page}"
             response = requests.get(url)
 
             try:
@@ -29,7 +31,7 @@ class Command(BaseCommand):
                 if not is_hidden:
                     variant = p["variants"][0]
 
-                    Product.objects.update_or_create(
+                    product, created = Product.objects.update_or_create(
                         shopify_product_id=p["id"],
                         defaults={
                             "title": p["title"],
@@ -38,9 +40,16 @@ class Command(BaseCommand):
                             "available": variant["available"],
                         }
                     )
+
+                    PriceHistory.objects.create(
+                        product=product,
+                        price=variant["price"],
+                        available=variant["available"],
+                    )
+
                     self.stdout.write(f"Saved: {p['title']}")
 
             page = page + 1
             time.sleep(1)
 
-        self.stdout.write(self.style.SUCCESS("Done scraping Minimalist."))
+        self.stdout.write(self.style.SUCCESS("Done scraping Plum Goodness."))

@@ -1,7 +1,7 @@
 import time
 import requests
 from django.core.management.base import BaseCommand
-from tracking.models import Product
+from tracking.models import PriceHistory, Product
 class Command(BaseCommand):
     help = "Scrapes Mcaffeine products and saves them to the database"
 
@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 if not is_hidden:
                     variant = p["variants"][0]
 
-                    Product.objects.update_or_create(
+                    product, created = Product.objects.update_or_create(
                         shopify_product_id=p["id"],
                         defaults={
                             "title": p["title"],
@@ -39,8 +39,14 @@ class Command(BaseCommand):
                             "available": variant["available"],
                         }
                     )
-                    self.stdout.write(f"Saved: {p['title']}")
 
+                    PriceHistory.objects.create(
+                        product=product,
+                        price=variant["price"],
+                        available=variant["available"],
+                    )
+
+                    self.stdout.write(f"Saved: {p['title']}")
             page = page + 1
             time.sleep(1)
 
