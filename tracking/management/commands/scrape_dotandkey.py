@@ -34,11 +34,13 @@ class Command(BaseCommand):
                 if not is_hidden:
                     variant = p["variants"][0]
 
+                    clean_vendor = p["vendor"].strip().title()
+
                     product, created = Product.objects.update_or_create(
                         shopify_product_id=p["id"],
                         defaults={
                             "title": p["title"],
-                            "vendor": p["vendor"],
+                            "vendor": clean_vendor,
                             "price": variant["price"],
                             "available": variant["available"],
                         }
