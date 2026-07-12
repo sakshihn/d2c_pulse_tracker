@@ -12,6 +12,49 @@
 </head>
 <body>
     <h1>D2C Pulse Tracker — Product Prices</h1>
+    <h2>Brand Comparison</h2>
+    <table>
+        <tr>
+            <th>Brand</th>
+            <th>Avg Price (₹)</th>
+            <th>Cheapest (₹)</th>
+            <th>Most Expensive (₹)</th>
+            <th>Products</th>
+        </tr>
+        {% for stat in brand_stats %}
+        <tr>
+            <td>{{ stat.vendor }}</td>
+            <td>{{ stat.avg_price|floatformat:2 }}</td>
+            <td>{{ stat.min_price }}</td>
+            <td>{{ stat.max_price }}</td>
+            <td>{{ stat.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Recent Price Changes</h2>
+    {% if price_changes %}
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Brand</th>
+            <th>Previous Price</th>
+            <th>Current Price</th>
+            <th>Change</th>
+        </tr>
+        {% for change in price_changes %}
+        <tr>
+            <td>{{ change.title }}</td>
+            <td>{{ change.vendor }}</td>
+            <td>₹{{ change.prev_price }}</td>
+            <td>₹{{ change.price }}</td>
+            <td>{% if change.diff > 0 %}🔺{% else %}🔻{% endif %} ₹{{ change.diff|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No price changes detected yet.</p>
+    {% endif %}
     <form method="get">
         <select name="vendor" onchange="this.form.submit()">
             <option value="">All Brands</option>
