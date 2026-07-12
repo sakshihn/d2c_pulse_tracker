@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>D2C Pulse Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #333; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>D2C Pulse Tracker — Product Prices</h1>
+    <form method="get">
+        <select name="vendor" onchange="this.form.submit()">
+            <option value="">All Brands</option>
+            {% for v in vendors %}
+                <option value="{{ v }}" {% if v == selected_vendor %}selected{% endif %}>{{ v }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <p>Total products: {{ products.count }}</p>
+    <table>
+        <tr>
+            <th>Brand</th>
+            <th>Product</th>
+            <th>Price (₹)</th>
+            <th>Available</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.vendor }}</td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.available }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
