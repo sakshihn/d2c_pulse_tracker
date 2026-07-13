@@ -13,6 +13,10 @@
 <body>
     <h1>D2C Pulse Tracker — Product Prices</h1>
     <h2>Brand Comparison</h2>
+    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
     <table>
         <tr>
             <th>Brand</th>
