@@ -1,22 +1,22 @@
 from django.shortcuts import render
 from django.db.models import Avg, Min, Max, Count
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 from .models import Product, PriceHistory
+
 
 def product_list(request):
     vendor_filter = request.GET.get('vendor', '')
-
     products = Product.objects.all().order_by('vendor', 'price')
     if vendor_filter:
         products = products.filter(vendor=vendor_filter)
-
     vendors = Product.objects.values_list('vendor', flat=True).distinct().order_by('vendor')
-
     brand_stats = (
         Product.objects.values('vendor')
         .annotate(avg_price=Avg('price'), min_price=Min('price'), max_price=Max('price'), count=Count('id'))
         .order_by('-avg_price')
     )
-
     price_changes = PriceHistory.objects.raw("""
         SELECT sub.id, sub.title, sub.vendor, sub.price, sub.prev_price, 
                (sub.price - sub.prev_price) AS diff,
@@ -36,7 +36,6 @@ def product_list(request):
         ORDER BY sub.recorded_at DESC
         LIMIT 10
     """)
-
     return render(request, 'tracking/product_list.html', {
         'products': products,
         'vendors': vendors,
@@ -44,3 +43,9 @@ def product_list(request):
         'brand_stats': brand_stats,
         'price_changes': price_changes,
     })
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
