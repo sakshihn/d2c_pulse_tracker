@@ -4,8 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .models import Product, PriceHistory
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def product_list(request):
     vendor_filter = request.GET.get('vendor', '')
     products = Product.objects.all().order_by('vendor', 'price')
