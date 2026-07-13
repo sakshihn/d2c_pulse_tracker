@@ -10,6 +10,6 @@ def send_login_email(sender, user, request, **kwargs):
         subject='D2C Pulse Tracker - Login Notification',
         message=f'Hi {user.username},\n\nYou just logged into D2C Pulse Tracker.\n\nIf this wasn\'t you, please contact support.',
         from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[user.email] if user.email else [settings.EMAIL_HOST_USER],
+        recipient_list=[user.email],
         fail_silently=True,
     )
