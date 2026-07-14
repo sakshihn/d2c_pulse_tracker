@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.db.models import Avg, Min, Max, Count
 from django import forms
@@ -24,9 +25,30 @@ def cluster_view(request):
 @login_required
 def product_list(request):
     vendor_filter = request.GET.get('vendor', '')
-    products = Product.objects.all().order_by('vendor', 'price')
+    sort = request.GET.get('sort', '')
+
+    products = Product.objects.all()
     if vendor_filter:
         products = products.filter(vendor=vendor_filter)
+
+    if sort == 'price_asc':
+        products = products.order_by('price')
+    elif sort == 'price_desc':
+        products = products.order_by('-price')
+    else:
+        products = products.order_by('vendor', 'price')
+
+    products = list(products)
+
+    def first_letter_key(product):
+        match = re.search(r'[A-Za-z]', product.title)
+        return match.group().lower() if match else 'z'
+
+    if sort == 'name_asc':
+        products.sort(key=first_letter_key)
+    elif sort == 'name_desc':
+        products.sort(key=first_letter_key, reverse=True)
+
     vendors = Product.objects.values_list('vendor', flat=True).distinct().order_by('vendor')
     brand_stats = (
         Product.objects.values('vendor')
@@ -56,6 +78,7 @@ def product_list(request):
         'products': products,
         'vendors': vendors,
         'selected_vendor': vendor_filter,
+        'selected_sort': sort,
         'brand_stats': brand_stats,
         'price_changes': price_changes,
     })
