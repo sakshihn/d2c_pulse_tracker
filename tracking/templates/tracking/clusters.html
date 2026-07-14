@@ -1,23 +1,43 @@
 <!DOCTYPE html>
+{% load custom_filters %}
 <html>
 <head>
     <title>Product Clusters - D2C Pulse Tracker</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .cluster-box { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
-        .cluster-title { font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f4f5f7; color: #222; overscroll-behavior: contain; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h1 { font-size: 28px; margin: 0; }
+        p.subtitle { color: #666; margin-top: 5px; }
+        .cluster-box { background: white; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .cluster-title { font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #2c3e50; }
         table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #eee; padding: 6px; text-align: left; }
-        th { background: #333; color: white; }
+        th, td { border-bottom: 1px solid #eee; padding: 8px 10px; text-align: left; font-size: 14px; }
+        th { background: #2c3e50; color: white; }
+        tr { transition: background 0.25s ease, transform 0.15s ease; }
+        tr:hover { background: #eef2f7; transform: scale(1.002); }
+        button { padding: 8px 16px; background: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; }
+        button:hover { background: #1a252f; transform: translateY(-2px); }
+        .footer-quote { text-align: center; padding: 40px 20px; color: #888; font-size: 14px; font-style: italic; }
     </style>
 </head>
 <body>
-    <h1>Cross-Brand Product Clusters</h1>
-    <p>Products grouped by similarity, regardless of brand — useful for spotting which competitor products actually compete with each other.</p>
+<div class="container">
+    <div class="topbar">
+        <div>
+            <h1>Cross-Brand Product Clusters</h1>
+            <p class="subtitle">Products grouped by similarity, regardless of brand — spot which competitor products actually compete with each other.</p>
+        </div>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 
     {% for cluster_id, products in clusters.items %}
     <div class="cluster-box">
-        <div class="cluster-title">Cluster {{ cluster_id }} ({{ products|length }} products)</div>
+        <div class="cluster-title">{{ cluster_names|get_item:cluster_id }} ({{ products|length }} products)</div>
         <table>
             <tr><th>Brand</th><th>Product</th><th>Price (₹)</th></tr>
             {% for p in products %}
@@ -30,5 +50,10 @@
         </table>
     </div>
     {% endfor %}
+
+    <div class="footer-quote">
+        no cap, this dashboard really said "let me track these prices fr fr" ✨
+    </div>
+</div>
 </body>
 </html>
