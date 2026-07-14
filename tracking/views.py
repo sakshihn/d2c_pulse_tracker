@@ -14,29 +14,16 @@ def home(request):
 
 @login_required
 def cluster_view(request):
-    from collections import Counter
-    import re as regex
+    products = Product.objects.exclude(category=None).order_by('category', 'vendor')
 
-    products = Product.objects.exclude(cluster_id=None).order_by('cluster_id', 'vendor')
-
-    clusters = {}
+    categories = {}
     for p in products:
-        clusters.setdefault(p.cluster_id, []).append(p)
+        categories.setdefault(p.category, []).append(p)
 
-    stop_words = {'with', 'for', 'the', 'and', 'by', 'of', 'pack', 'set', 'combo', 'duo', 'trio', 'kit'}
+    # sort categories by number of products, descending
+    categories = dict(sorted(categories.items(), key=lambda x: -len(x[1])))
 
-    cluster_names = {}
-    for cluster_id, items in clusters.items():
-        word_counts = Counter()
-        for item in items:
-            words = regex.findall(r'[a-zA-Z]+', item.title.lower())
-            for w in words:
-                if len(w) > 3 and w not in stop_words:
-                    word_counts[w] += 1
-        top_words = [w for w, _ in word_counts.most_common(2)]
-        cluster_names[cluster_id] = ' '.join(w.capitalize() for w in top_words) if top_words else f'Cluster {cluster_id}'
-
-    return render(request, 'tracking/clusters.html', {'clusters': clusters, 'cluster_names': cluster_names})
+    return render(request, 'tracking/clusters.html', {'categories': categories})
 
 @login_required
 def product_list(request):

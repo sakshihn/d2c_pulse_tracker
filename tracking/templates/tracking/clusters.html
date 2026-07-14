@@ -35,9 +35,9 @@
         </form>
     </div>
 
-    {% for cluster_id, products in clusters.items %}
+    {% for category, products in categories.items %}
     <div class="cluster-box">
-        <div class="cluster-title">{{ cluster_names|get_item:cluster_id }} ({{ products|length }} products)</div>
+        <div class="cluster-title">{{ category }} ({{ products|length }} products)</div>
         <table>
             <tr><th>Brand</th><th>Product</th><th>Price (₹)</th></tr>
             {% for p in products %}
