@@ -29,10 +29,13 @@ def cluster_view(request):
 def product_list(request):
     vendor_filter = request.GET.get('vendor', '')
     sort = request.GET.get('sort', '')
+    search_query = request.GET.get('q', '')
 
     products = Product.objects.all()
     if vendor_filter:
         products = products.filter(vendor=vendor_filter)
+    if search_query:
+        products = products.filter(title__icontains=search_query)
 
     if sort == 'price_asc':
         products = products.order_by('price')
@@ -82,6 +85,7 @@ def product_list(request):
         'vendors': vendors,
         'selected_vendor': vendor_filter,
         'selected_sort': sort,
+        'search_query': search_query,
         'brand_stats': brand_stats,
         'price_changes': price_changes,
     })

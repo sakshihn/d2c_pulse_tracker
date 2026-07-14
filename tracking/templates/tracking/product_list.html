@@ -78,6 +78,8 @@
     <h2>All Brands — Total products: {{ products.count }}</h2>
     <div class="filters">
         <form method="get">
+            <input type="text" name="q" value="{{ search_query }}" placeholder="Search products..." style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; margin-right: 10px; width: 220px;">
+            <button type="submit" style="margin-right: 10px;">Search</button>
             <select name="vendor" onchange="this.form.submit()">
                 <option value="">All Brands</option>
                 {% for v in vendors %}
