@@ -12,6 +12,16 @@ def home(request):
     return render(request, 'tracking/home.html')
 
 @login_required
+def cluster_view(request):
+    products = Product.objects.exclude(cluster_id=None).order_by('cluster_id', 'vendor')
+    
+    clusters = {}
+    for p in products:
+        clusters.setdefault(p.cluster_id, []).append(p)
+    
+    return render(request, 'tracking/clusters.html', {'clusters': clusters})
+
+@login_required
 def product_list(request):
     vendor_filter = request.GET.get('vendor', '')
     products = Product.objects.all().order_by('vendor', 'price')

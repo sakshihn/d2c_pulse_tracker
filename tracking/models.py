@@ -7,6 +7,7 @@ class Product(models.Model):
     vendor = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
+    cluster_id = models.IntegerField(null=True, blank=True)
     date_scraped = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -20,3 +21,5 @@ class PriceHistory(models.Model):
 
     def __str__(self):
         return f"{self.product.title} - {self.price} on {self.recorded_at}"
+
+    
