@@ -2,97 +2,36 @@
 <html>
 <head>
     <title>Goodbye - D2C Pulse Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
+            font-family: 'IBM Plex Mono', monospace;
+            background: #f4f4f2;
+            color: #1a1a1a;
             height: 100vh;
-            background: #f7f0e8;
-            color: #2b2b2b;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            position: relative;
         }
-
-        .about-link {
-            position: absolute;
-            top: 22px;
-            right: 26px;
-            z-index: 3;
-            font-size: 13px;
-            font-weight: 600;
-            color: #e88ab3;
-            text-decoration: none;
-            padding: 8px 16px;
-            border: 1.5px solid #e88ab3;
-            border-radius: 20px;
-            transition: background 0.2s ease, color 0.2s ease;
-            opacity: 0;
-            animation: riseIn 0.8s ease-out 0.4s forwards;
-        }
-        .about-link:hover { background: #e88ab3; color: white; }
-
-        .floaters { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-        .heart {
-            position: absolute;
-            bottom: -60px;
-            opacity: 0;
-            animation: bubbleUp 10s ease-in infinite;
-        }
-        .heart::before, .heart::after {
-            content: "";
-            position: absolute;
-            width: 55%;
-            height: 85%;
-            background: var(--heart-color, #f3b6d0);
-            border-radius: 50% 50% 0 0;
-            filter: blur(1px);
-        }
-        .heart::before { left: 50%; transform: rotate(-45deg); transform-origin: 0 100%; }
-        .heart::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
-        @keyframes bubbleUp {
-            0% { transform: translateY(0) scale(0.7); opacity: 0; }
-            10% { opacity: 0.55; }
-            50% { transform: translateY(-45vh) scale(1); }
-            90% { opacity: 0.35; }
-            100% { transform: translateY(-95vh) scale(0.85); opacity: 0; }
-        }
-        .content { position: relative; z-index: 2; text-align: center; opacity: 0; animation: riseIn 0.8s ease-out 0.2s forwards; }
-        h1 { font-family: 'Fredoka', sans-serif; color: #e88ab3; font-size: 40px; margin-bottom: 10px; }
-        p.quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; color: #555; margin-bottom: 35px; max-width: 420px; }
+        .content { text-align: center; opacity: 0; animation: riseIn 0.6s ease-out 0.1s forwards; max-width: 420px; padding: 0 20px; }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 14px; }
+        p.quote { font-size: 13px; color: #6b6b64; line-height: 1.7; margin-bottom: 30px; }
         a.home-btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background: #e88ab3;
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            display: inline-block; padding: 12px 28px; background: #1a1a1a; color: #e8e825;
+            text-decoration: none; font-size: 12px; letter-spacing: 0.5px; font-weight: 600;
+            transition: background 0.15s ease;
         }
-        a.home-btn:hover { background: #d9709f; transform: translateY(-3px); box-shadow: 0 8px 16px rgba(232,138,179,0.4); }
-        @keyframes riseIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        a.home-btn:hover { background: #333; }
+        @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
-    <a href="{% url 'about_builder' %}" class="about-link">Meet the Builder ✨</a>
-    <div class="floaters">
-        <div class="heart" style="left:10%; animation-delay:0s; width:36px; height:36px; --heart-color:#eb8fb7;"></div>
-        <div class="heart" style="left:30%; animation-delay:2s; width:24px; height:24px; --heart-color:#f6c9de;"></div>
-        <div class="heart" style="left:55%; animation-delay:1s; width:44px; height:44px; --heart-color:#d9709f;"></div>
-        <div class="heart" style="left:75%; animation-delay:3s; width:28px; height:28px; --heart-color:#f3b6d0;"></div>
-        <div class="heart" style="left:90%; animation-delay:1.5s; width:32px; height:32px; --heart-color:#e88ab3;"></div>
-    </div>
     <div class="content">
-        <h1>Thank You for Visiting 💗</h1>
-        <p class="quote">"Here's to smarter pricing, softer skin, and staying one step ahead — see you soon."</p>
-        <a href="{% url 'home' %}" class="home-btn">Back to Home</a>
+        <h1>THANK YOU FOR VISITING</h1>
+        <p class="quote">"Here's to smarter pricing, sharper insights, and staying one step ahead — see you soon."</p>
+        <a href="{% url 'home' %}" class="home-btn">BACK TO HOME</a>
     </div>
 </body>
 </html>

@@ -2,82 +2,57 @@
 <html>
 <head>
     <title>About the Builder - D2C Pulse Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
+            font-family: 'IBM Plex Mono', monospace;
+            background: #f4f4f2;
+            color: #1a1a1a;
             min-height: 100vh;
-            background: #f7f0e8;
-            color: #2b2b2b;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
         }
-        .card {
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(232,138,179,0.2);
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            opacity: 0;
-            animation: riseIn 0.6s ease-out forwards;
+        .box {
+            background: #fff; border: 1px solid #1a1a1a; padding: 38px 34px;
+            max-width: 420px; width: 100%; text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            opacity: 0; animation: riseIn 0.5s ease-out forwards;
         }
         .avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: #e88ab3;
-            margin: 0 auto 18px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 32px;
-            color: white;
+            width: 70px; height: 70px; background: #1a1a1a; color: #e8e825;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: 700; margin: 0 auto 16px auto;
         }
-        h1 { font-family: 'Fredoka', sans-serif; color: #e88ab3; font-size: 26px; margin: 0 0 6px 0; }
-        p.role { font-family: 'Playfair Display', serif; font-style: italic; color: #777; font-size: 15px; margin-bottom: 20px; }
-        p.bio { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 25px; }
+        h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        p.role { font-size: 11px; color: #6b6b64; letter-spacing: 0.5px; margin-bottom: 18px; }
+        p.bio { font-size: 12px; line-height: 1.7; color: #444; margin-bottom: 22px; text-align: left; }
         .links a {
-            display: inline-block;
-            margin: 6px;
-            padding: 10px 22px;
-            background: #e88ab3;
-            color: white;
-            text-decoration: none;
-            border-radius: 24px;
-            font-size: 13px;
-            font-weight: 600;
-            transition: transform 0.2s ease, background 0.2s ease;
+            display: inline-block; margin: 4px; padding: 8px 18px; background: #1a1a1a; color: #e8e825;
+            text-decoration: none; font-size: 11px; letter-spacing: 0.5px; font-weight: 600;
+            transition: background 0.15s ease;
         }
-        .links a:hover { background: #d9709f; transform: translateY(-2px); }
-        .back { margin-top: 25px; }
-        .back a { color: #999; text-decoration: none; font-size: 13px; }
-        .back a:hover { text-decoration: underline; }
-        @keyframes riseIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .links a:hover { background: #333; }
+        .back { margin-top: 22px; }
+        .back a { color: #a0a09a; text-decoration: none; font-size: 11px; }
+        .back a:hover { color: #1a1a1a; }
+        @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="box">
         <div class="avatar">S</div>
-        <h1>Hi, I'm Sakshi 👋</h1>
-        <p class="role">Data Scientist in the making</p>
-        <p class="bio">
-            [Your bio goes here — a couple lines about who you are, what you're passionate about, and why you built this project.]
-        </p>
+        <h1>Hi, I'm Sakshi</h1>
+        <p class="role">DATA SCIENTIST IN THE MAKING</p>
+        <p class="bio">[Your bio goes here — a couple lines about who you are, what you're passionate about, and why you built this project.]</p>
         <div class="links">
             <a href="#">LinkedIn</a>
             <a href="#">GitHub</a>
             <a href="#">Portfolio</a>
         </div>
-        <div class="back">
-            <a href="javascript:history.back()">&larr; Go Back</a>
-        </div>
+        <div class="back"><a href="javascript:history.back()">&larr; Go Back</a></div>
     </div>
 </body>
 </html>

@@ -36,7 +36,7 @@
         <div class="card">
             <div class="card-inner">
                 <div class="card-title">Brand Comparison</div>
-                <div class="card-hint">Average, cheapest, and most expensive price per brand</div>
+                <div class="card-hint">Average, cheapest, and most expensive price per brand · <a href="{% url 'insights_view' %}" style="color:#1a1a1a; font-weight:600; border-bottom:1px solid #e8e825; text-decoration:none;">view full charts in Insights &rarr;</a></div>
                 <table>
                     <tr><th>BRAND</th><th>AVG PRICE</th><th>CHEAPEST</th><th>MOST EXPENSIVE</th><th>PRODUCTS</th></tr>
                     {% for stat in brand_stats %}
