@@ -2,48 +2,55 @@
 <html>
 <head>
     <title>D2C Pulse Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            background: #f4f4f2;
+            color: #1a1a1a;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            position: relative;
         }
-        h1 { font-size: 42px; margin-bottom: 10px; animation: fadeIn 1s ease-in; }
-        p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
-        a {
-            display: inline-block;
-            margin: 10px;
-            padding: 14px 28px;
-            background: white;
-            color: #764ba2;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        .about-link {
+            position: absolute; top: 22px; right: 26px;
+            font-size: 11px; letter-spacing: 0.5px; font-weight: 600;
+            color: #1a1a1a; text-decoration: none;
+            padding: 8px 16px; border: 1px solid #1a1a1a;
+            transition: background 0.15s ease, color 0.15s ease;
         }
-        a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        .about-link:hover { background: #1a1a1a; color: #e8e825; }
+        .content { text-align: center; opacity: 0; animation: riseIn 0.6s ease-out 0.1s forwards; }
+        h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+        h1 span { color: #1a1a1a; border-bottom: 3px solid #e8e825; }
+        .tagline { font-size: 13px; color: #6b6b64; margin-bottom: 32px; letter-spacing: 0.3px; }
+        .btns a {
+            display: inline-block; margin: 0 6px; padding: 12px 28px;
+            text-decoration: none; font-size: 12px; letter-spacing: 0.5px; font-weight: 600;
+            transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .btns a.primary { background: #1a1a1a; color: #e8e825; }
+        .btns a.primary:hover { background: #333; transform: translateY(-2px); }
+        .btns a.secondary { background: transparent; color: #1a1a1a; border: 1px solid #1a1a1a; }
+        .btns a.secondary:hover { background: #1a1a1a; color: #fff; transform: translateY(-2px); }
+        .about { position: absolute; bottom: 22px; font-size: 11px; color: #a0a09a; }
+        @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <h1>D2C Pulse Tracker</h1>
-    <p>Competitive pricing intelligence for D2C beauty brands</p>
-    <div>
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'signup' %}">Sign Up</a>
+    <a href="{% url 'about_builder' %}" class="about-link">MEET THE BUILDER</a>
+    <div class="content">
+        <h1>D2C <span>PULSE</span> TRACKER</h1>
+        <div class="tagline">COMPETITIVE PRICING INTELLIGENCE FOR D2C BEAUTY BRANDS</div>
+        <div class="btns">
+            <a href="{% url 'login' %}" class="primary">LOGIN</a>
+            <a href="{% url 'signup' %}" class="secondary">SIGN UP</a>
+        </div>
     </div>
+    <div class="about">Built by Sakshi ❤️</div>
 </body>
 </html>

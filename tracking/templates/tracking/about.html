@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About the Builder - D2C Pulse Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: #f7f0e8;
+            color: #2b2b2b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(232,138,179,0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            animation: riseIn 0.6s ease-out forwards;
+        }
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #e88ab3;
+            margin: 0 auto 18px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 32px;
+            color: white;
+        }
+        h1 { font-family: 'Fredoka', sans-serif; color: #e88ab3; font-size: 26px; margin: 0 0 6px 0; }
+        p.role { font-family: 'Playfair Display', serif; font-style: italic; color: #777; font-size: 15px; margin-bottom: 20px; }
+        p.bio { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 25px; }
+        .links a {
+            display: inline-block;
+            margin: 6px;
+            padding: 10px 22px;
+            background: #e88ab3;
+            color: white;
+            text-decoration: none;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .links a:hover { background: #d9709f; transform: translateY(-2px); }
+        .back { margin-top: 25px; }
+        .back a { color: #999; text-decoration: none; font-size: 13px; }
+        .back a:hover { text-decoration: underline; }
+        @keyframes riseIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="avatar">S</div>
+        <h1>Hi, I'm Sakshi 👋</h1>
+        <p class="role">Data Scientist in the making</p>
+        <p class="bio">
+            [Your bio goes here — a couple lines about who you are, what you're passionate about, and why you built this project.]
+        </p>
+        <div class="links">
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+            <a href="#">Portfolio</a>
+        </div>
+        <div class="back">
+            <a href="javascript:history.back()">&larr; Go Back</a>
+        </div>
+    </div>
+</body>
+</html>

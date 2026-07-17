@@ -1,0 +1,115 @@
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'IBM Plex Mono', 'Courier New', monospace;
+        background: #f4f4f2;
+        color: #1a1a1a;
+        display: flex;
+        min-height: 100vh;
+    }
+    .sidebar {
+        width: 170px;
+        background: #1a1a1a;
+        padding: 22px 0;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; bottom: 0;
+    }
+    .sidebar-logo {
+        padding: 0 18px 20px 18px;
+        border-bottom: 1px solid #333;
+        margin-bottom: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #f4f4f2;
+        letter-spacing: 0.5px;
+        line-height: 1.4;
+    }
+    .sidebar-links { display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-link {
+        padding: 10px 18px;
+        font-size: 11px;
+        color: #a0a09a;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        transition: background 0.15s ease, color 0.15s ease;
+    }
+    .sidebar-link:hover { background: #262626; color: #f4f4f2; }
+    .sidebar-link.active { color: #1a1a1a; background: #e8e825; font-weight: 600; }
+    .sidebar-footer { margin-top: auto; padding: 0 18px; }
+    .sidebar-version { font-size: 10px; color: #6b6b64; margin-bottom: 10px; }
+    .sidebar-logout {
+        width: 100%;
+        padding: 9px 0;
+        background: transparent;
+        border: 1px solid #444;
+        color: #a0a09a;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: border 0.15s ease, color 0.15s ease;
+    }
+    .sidebar-logout:hover { border-color: #e8e825; color: #e8e825; }
+
+    .main {
+        margin-left: 170px;
+        flex: 1;
+        padding: 28px 32px;
+        max-width: 1100px;
+    }
+
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+    .page-title { font-size: 18px; font-weight: 600; }
+    .page-subtitle { font-size: 11px; color: #6b6b64; margin-top: 2px; }
+
+    .stats-grid { display: grid; gap: 1px; background: #ddd; margin-bottom: 22px; border-radius: 4px; overflow: hidden; }
+    .stat-card { background: #fff; padding: 16px 18px; }
+    .stat-card.dark { background: #1a1a1a; }
+    .stat-label { font-size: 10px; color: #6b6b64; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .stat-card.dark .stat-label { color: #a0a09a; }
+    .stat-value { font-size: 26px; font-weight: 600; }
+    .stat-card.dark .stat-value { color: #e8e825; }
+
+    .card { background: #fff; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 22px; }
+    .card-inner { padding: 18px 20px; }
+    .card-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .card-hint { font-size: 10px; color: #6b6b64; margin-bottom: 14px; }
+
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 12px 16px; text-align: left; font-size: 12px; }
+    th { font-size: 10px; color: #6b6b64; letter-spacing: 0.5px; font-weight: 500; border-bottom: 1px solid #eee; }
+    td { border-bottom: 1px solid #f2f2f0; }
+    tr:hover td { background: #fafafa; }
+    a.row-link { color: #1a1a1a; text-decoration: none; }
+    a.row-link:hover { color: #b5502e; }
+
+    .badge { padding: 3px 8px; border-radius: 3px; font-size: 10px; letter-spacing: 0.3px; }
+    .badge.in-stock { background: #e8f5ea; color: #2f7d4f; }
+    .badge.out-stock { background: #fdeaea; color: #c0392b; }
+
+    input[type="text"] {
+        padding: 9px 14px; border-radius: 3px; border: 1px solid #ccc;
+        font-family: 'IBM Plex Mono', monospace; font-size: 12px; width: 220px; background: #fff;
+    }
+    input[type="text"]:focus { outline: none; border-color: #1a1a1a; }
+    select {
+        padding: 9px 14px; border-radius: 3px; border: 1px solid #ccc;
+        font-family: 'IBM Plex Mono', monospace; font-size: 12px; background: #fff;
+    }
+    .btn {
+        padding: 9px 18px; background: #1a1a1a; color: #e8e825; border: none;
+        font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.5px;
+        cursor: pointer; text-decoration: none; display: inline-block;
+    }
+    .btn:hover { background: #333; }
+    .btn-outline {
+        padding: 9px 18px; background: transparent; color: #1a1a1a; border: 1px solid #1a1a1a;
+        font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.5px;
+        cursor: pointer; text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { background: #1a1a1a; color: #fff; }
+</style>

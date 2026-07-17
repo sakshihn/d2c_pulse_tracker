@@ -32,7 +32,10 @@ class Command(BaseCommand):
                     or "-free" in p["title"].lower()
                 )
                 if not is_hidden:
-                    variant = p["variants"][0]
+                    variants = p["variants"]
+                    prices = [float(v["price"]) for v in variants]
+                    cheapest_price = min(prices)
+                    is_available = any(v["available"] for v in variants)
 
                     clean_vendor = p["vendor"].strip().title()
 
@@ -41,15 +44,15 @@ class Command(BaseCommand):
                         defaults={
                             "title": p["title"],
                             "vendor": clean_vendor,
-                            "price": variant["price"],
-                            "available": variant["available"],
+                            "price": cheapest_price,
+                            "available": is_available,
                         }
                     )
 
                     PriceHistory.objects.create(
                         product=product,
-                        price=variant["price"],
-                        available=variant["available"],
+                        price=cheapest_price,
+                        available=is_available,
                     )
 
                     self.stdout.write(f"Saved: {p['title']}")

@@ -1,0 +1,15 @@
+<div class="sidebar">
+    <div class="sidebar-logo">D2C<br>PULSE<br>TRACKER</div>
+    <div class="sidebar-links">
+        <a href="{% url 'product_list' %}" class="sidebar-link {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">PRODUCTS</a>
+        <a href="{% url 'cluster_view' %}" class="sidebar-link {% if request.resolver_match.url_name == 'cluster_view' or request.resolver_match.url_name == 'category_detail' %}active{% endif %}">CATEGORIES</a>
+        <a href="{% url 'insights_view' %}" class="sidebar-link {% if request.resolver_match.url_name == 'insights_view' %}active{% endif %}">INSIGHTS</a>
+    </div>
+    <div class="sidebar-footer">
+        <div class="sidebar-version">v1.0 — 540 tracked</div>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="sidebar-logout">LOGOUT</button>
+        </form>
+    </div>
+</div>

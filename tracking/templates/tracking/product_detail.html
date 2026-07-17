@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product.title }} - D2C Pulse Tracker</title>
+    {% include 'tracking/_theme.html' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+    {% include 'tracking/_nav.html' %}
+    <div class="main">
+        <a href="javascript:history.back()" class="btn-outline" style="margin-bottom: 16px; display: inline-block;">&larr; BACK</a>
+        <div class="page-header">
+            <div>
+                <div class="page-title">{{ product.title }}</div>
+                <div class="page-subtitle">{{ product.vendor }} &middot; {{ product.category }}</div>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="stat-card dark">
+                <div class="stat-label">CURRENT PRICE</div>
+                <div class="stat-value" style="font-size: 30px;">₹{{ product.price }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">STATUS</div>
+                <div class="stat-value" style="font-size: 18px;">{% if product.available %}<span class="badge in-stock">IN STOCK</span>{% else %}<span class="badge out-stock">OUT OF STOCK</span>{% endif %}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">Price History</div>
+                <div class="card-hint">Tracked snapshots over time from automated scraping</div>
+                <canvas id="priceChart" height="90"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Chart(document.getElementById('priceChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels|safe }},
+                datasets: [{
+                    label: 'Price (₹)',
+                    data: {{ chart_prices|safe }},
+                    borderColor: '#1a1a1a',
+                    backgroundColor: 'rgba(232,232,37,0.15)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#e8e825',
+                    pointBorderColor: '#1a1a1a',
+                    fill: true,
+                    tension: 0.15
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, grid: { color: '#eee' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

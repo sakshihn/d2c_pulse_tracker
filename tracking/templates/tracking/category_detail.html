@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ category_name }} - D2C Pulse Tracker</title>
+    {% include 'tracking/_theme.html' %}
+</head>
+<body>
+    {% include 'tracking/_nav.html' %}
+    <div class="main">
+        <a href="{% url 'cluster_view' %}" class="btn-outline" style="margin-bottom: 16px; display: inline-block;">&larr; ALL CATEGORIES</a>
+        <div class="page-header">
+            <div>
+                <div class="page-title">{{ category_name }}</div>
+                <div class="page-subtitle">{{ products.count }} products across all tracked brands</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <form method="get" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+                    <input type="text" name="q" value="{{ search_query }}" placeholder="Search in this category...">
+                    <select name="sort" onchange="this.form.submit()">
+                        <option value="">Sort by...</option>
+                        <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Price Low-High</option>
+                        <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Price High-Low</option>
+                    </select>
+                    <button type="submit" class="btn">SEARCH</button>
+                </form>
+                <table>
+                    <tr><th>BRAND</th><th>PRODUCT</th><th>PRICE</th><th>STATUS</th></tr>
+                    {% for p in products %}
+                    <tr>
+                        <td>{{ p.vendor }}</td>
+                        <td><a href="{% url 'product_detail' p.id %}" class="row-link">{{ p.title }}</a></td>
+                        <td>₹{{ p.price }}</td>
+                        <td>{% if p.available %}<span class="badge in-stock">IN STOCK</span>{% else %}<span class="badge out-stock">OUT OF STOCK</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

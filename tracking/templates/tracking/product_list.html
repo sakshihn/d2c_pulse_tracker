@@ -1,116 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>D2C Pulse Tracker</title>
-    <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f4f5f7; color: #222; overscroll-behavior: contain; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
-        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        h1 { font-size: 28px; margin: 0; }
-        h2 { font-size: 20px; margin-top: 40px; margin-bottom: 10px; color: #444; }
-        table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
-        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        th { background: #2c3e50; color: white; font-weight: 600; }
-        tr { transition: background 0.25s ease, transform 0.15s ease; }
-        tr:hover { background: #eef2f7; transform: scale(1.002); }
-        select { padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; margin-right: 10px; }
-        button { padding: 8px 16px; background: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; }
-        button:hover { background: #1a252f; transform: translateY(-2px); }
-        .filters { margin-bottom: 15px; }
-        .footer-quote { text-align: center; padding: 40px 20px; color: #888; font-size: 14px; font-style: italic; }
-    </style>
+    <title>Products - D2C Pulse Tracker</title>
+    {% include 'tracking/_theme.html' %}
 </head>
 <body>
-<div class="container">
-    <div class="topbar">
-        <h1>D2C Pulse Tracker</h1>
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
+    {% include 'tracking/_nav.html' %}
+    <div class="main">
+        <div class="page-header">
+            <div>
+                <div class="page-title">Product Overview</div>
+                <div class="page-subtitle">Live pricing across 4 D2C beauty brands</div>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="stat-card">
+                <div class="stat-label">TOTAL PRODUCTS</div>
+                <div class="stat-value">{{ products.count }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">BRANDS</div>
+                <div class="stat-value">{{ vendors|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">FILTERED BY</div>
+                <div class="stat-value" style="font-size: 15px;">{% if selected_vendor %}{{ selected_vendor }}{% else %}All{% endif %}</div>
+            </div>
+            <div class="stat-card dark">
+                <div class="stat-label">RECENT CHANGES</div>
+                <div class="stat-value">{{ price_changes|length }}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">Brand Comparison</div>
+                <div class="card-hint">Average, cheapest, and most expensive price per brand</div>
+                <table>
+                    <tr><th>BRAND</th><th>AVG PRICE</th><th>CHEAPEST</th><th>MOST EXPENSIVE</th><th>PRODUCTS</th></tr>
+                    {% for stat in brand_stats %}
+                    <tr>
+                        <td>{{ stat.vendor }}</td>
+                        <td>₹{{ stat.avg_price|floatformat:2 }}</td>
+                        <td>₹{{ stat.min_price }}</td>
+                        <td>₹{{ stat.max_price }}</td>
+                        <td>{{ stat.count }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">Recent Price Changes</div>
+                <div class="card-hint">Products with pricing movement detected across scrapes</div>
+                {% if price_changes %}
+                <table>
+                    <tr><th>PRODUCT</th><th>BRAND</th><th>PREVIOUS</th><th>CURRENT</th><th>CHANGE</th></tr>
+                    {% for change in price_changes %}
+                    <tr>
+                        <td>{{ change.title|truncatechars:45 }}</td>
+                        <td>{{ change.vendor }}</td>
+                        <td>₹{{ change.prev_price }}</td>
+                        <td>₹{{ change.price }}</td>
+                        <td>{% if change.diff > 0 %}<span style="color:#c0392b;">▲ ₹{{ change.diff|floatformat:2 }}</span>{% else %}<span style="color:#2f7d4f;">▼ ₹{{ change.diff|floatformat:2|slice:"1:" }}</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p style="font-size: 12px; color: #6b6b64;">No price changes detected yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">All Products</div>
+                <div class="card-hint">{{ products.count }} items — search, sort, and filter below</div>
+                <form method="get" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+                    <input type="text" name="q" value="{{ search_query }}" placeholder="Search products...">
+                    <select name="vendor" onchange="this.form.submit()">
+                        <option value="">All Brands</option>
+                        {% for v in vendors %}
+                            <option value="{{ v }}" {% if v == selected_vendor %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="sort" onchange="this.form.submit()">
+                        <option value="">Sort by...</option>
+                        <option value="name_asc" {% if selected_sort == 'name_asc' %}selected{% endif %}>Name A-Z</option>
+                        <option value="name_desc" {% if selected_sort == 'name_desc' %}selected{% endif %}>Name Z-A</option>
+                        <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Price Low-High</option>
+                        <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Price High-Low</option>
+                    </select>
+                    <button type="submit" class="btn">SEARCH</button>
+                </form>
+                <table>
+                    <tr><th>BRAND</th><th>PRODUCT</th><th>PRICE</th><th>STATUS</th></tr>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.vendor }}</td>
+                        <td><a href="{% url 'product_detail' product.id %}" class="row-link">{{ product.title }}</a></td>
+                        <td>₹{{ product.price }}</td>
+                        <td>{% if product.available %}<span class="badge in-stock">IN STOCK</span>{% else %}<span class="badge out-stock">OUT OF STOCK</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
-
-    <h2>Brand Comparison</h2>
-    <table>
-        <tr>
-            <th>Brand</th>
-            <th>Avg Price (₹)</th>
-            <th>Cheapest (₹)</th>
-            <th>Most Expensive (₹)</th>
-            <th>Products</th>
-        </tr>
-        {% for stat in brand_stats %}
-        <tr>
-            <td>{{ stat.vendor }}</td>
-            <td>{{ stat.avg_price|floatformat:2 }}</td>
-            <td>{{ stat.min_price }}</td>
-            <td>{{ stat.max_price }}</td>
-            <td>{{ stat.count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <h2>Recent Price Changes</h2>
-    {% if price_changes %}
-    <table>
-        <tr>
-            <th>Product</th>
-            <th>Brand</th>
-            <th>Previous Price</th>
-            <th>Current Price</th>
-            <th>Change</th>
-        </tr>
-        {% for change in price_changes %}
-        <tr>
-            <td>{{ change.title }}</td>
-            <td>{{ change.vendor }}</td>
-            <td>₹{{ change.prev_price }}</td>
-            <td>₹{{ change.price }}</td>
-            <td>{% if change.diff > 0 %}🔺{% else %}🔻{% endif %} ₹{{ change.diff|floatformat:2 }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>No price changes detected yet.</p>
-    {% endif %}
-
-    <h2>All Brands — Total products: {{ products.count }}</h2>
-    <div class="filters">
-        <form method="get">
-            <input type="text" name="q" value="{{ search_query }}" placeholder="Search products..." style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; margin-right: 10px; width: 220px;">
-            <button type="submit" style="margin-right: 10px;">Search</button>
-            <select name="vendor" onchange="this.form.submit()">
-                <option value="">All Brands</option>
-                {% for v in vendors %}
-                    <option value="{{ v }}" {% if v == selected_vendor %}selected{% endif %}>{{ v }}</option>
-                {% endfor %}
-            </select>
-            <select name="sort" onchange="this.form.submit()">
-                <option value="">Sort by...</option>
-                <option value="name_asc" {% if selected_sort == 'name_asc' %}selected{% endif %}>Name A-Z</option>
-                <option value="name_desc" {% if selected_sort == 'name_desc' %}selected{% endif %}>Name Z-A</option>
-                <option value="price_asc" {% if selected_sort == 'price_asc' %}selected{% endif %}>Price Low to High</option>
-                <option value="price_desc" {% if selected_sort == 'price_desc' %}selected{% endif %}>Price High to Low</option>
-            </select>
-        </form>
-    </div>
-
-    <table>
-        <tr><th>Brand</th><th>Product</th><th>Price (₹)</th><th>Available</th></tr>
-        {% for product in products %}
-        <tr>
-            <td>{{ product.vendor }}</td>
-            <td>{{ product.title }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.available }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <div class="footer-quote">
-        no cap, this dashboard really said "let me track these prices fr fr" ✨
-    </div>
-</div>
 </body>
 </html>

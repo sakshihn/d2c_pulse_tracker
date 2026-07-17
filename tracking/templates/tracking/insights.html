@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insights - D2C Pulse Tracker</title>
+    {% include 'tracking/_theme.html' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+        @media (max-width: 900px) { .chart-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    {% include 'tracking/_nav.html' %}
+    <div class="main">
+        <div class="page-header">
+            <div>
+                <div class="page-title">Insights</div>
+                <div class="page-subtitle">Visual summaries across all tracked brands and categories</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">Average Price by Brand</div>
+                <div class="card-hint">Click a bar on the Products page to explore that brand &rarr;</div>
+                <canvas id="brandChart" height="90"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-title">Price Range by Brand</div>
+                    <div class="card-hint">Cheapest vs. most expensive product per brand</div>
+                    <canvas id="rangeChart" height="130"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-title">Stock Availability</div>
+                    <div class="card-hint">In stock vs. out of stock across all products</div>
+                    <canvas id="availabilityChart" height="130"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">Products by Category</div>
+                <div class="card-hint">Distribution across {{ category_labels|length }} rule-based categories</div>
+                <canvas id="categoryChart" height="140"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-title">Top 10 Most Expensive Products</div>
+                <div class="card-hint">Highest-priced items across all brands</div>
+                <canvas id="topChart" height="110"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const darkColor = '#1a1a1a';
+        const accentColor = '#e8e825';
+        const greyColor = '#c9c9c4';
+
+        new Chart(document.getElementById('brandChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: {{ brand_labels|safe }},
+                datasets: [{ label: 'Average Price (₹)', data: {{ brand_avg_prices|safe }}, backgroundColor: darkColor }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#eee' } }, x: { grid: { display: false } } } }
+        });
+
+        new Chart(document.getElementById('rangeChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: {{ brand_labels|safe }},
+                datasets: [
+                    { label: 'Min Price', data: {{ brand_min_prices|safe }}, backgroundColor: greyColor },
+                    { label: 'Max Price', data: {{ brand_max_prices|safe }}, backgroundColor: darkColor }
+                ]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }, scales: { y: { grid: { color: '#eee' } }, x: { grid: { display: false } } } }
+        });
+
+        new Chart(document.getElementById('availabilityChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: {{ availability_labels|safe }},
+                datasets: [{ data: {{ availability_counts|safe }}, backgroundColor: [darkColor, accentColor] }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+        });
+
+        new Chart(document.getElementById('categoryChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: {{ category_labels|safe }},
+                datasets: [{ label: 'Products', data: {{ category_counts|safe }}, backgroundColor: darkColor }]
+            },
+            options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#eee' } }, y: { grid: { display: false } } } }
+        });
+
+        new Chart(document.getElementById('topChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: {{ top_labels|safe }},
+                datasets: [{ label: 'Price (₹)', data: {{ top_prices|safe }}, backgroundColor: accentColor, borderColor: darkColor, borderWidth: 1 }]
+            },
+            options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#eee' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+        });
+    </script>
+</body>
+</html>
