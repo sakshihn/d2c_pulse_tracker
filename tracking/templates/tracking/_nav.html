@@ -1,3 +1,8 @@
+<div class="scanline"></div>
+<div class="blip" style="left:20%; animation-delay:0s;"></div>
+<div class="blip" style="left:45%; animation-delay:2.5s;"></div>
+<div class="blip" style="left:65%; animation-delay:5s;"></div>
+<div class="blip" style="left:80%; animation-delay:1.5s;"></div>
 <div class="sidebar">
     <div class="sidebar-logo">D2C<br>PULSE<br>TRACKER</div>
     <div class="sidebar-links">
@@ -6,7 +11,7 @@
         <a href="{% url 'insights_view' %}" class="sidebar-link {% if request.resolver_match.url_name == 'insights_view' %}active{% endif %}">INSIGHTS</a>
     </div>
     <div class="sidebar-footer">
-        <div class="sidebar-version">v1.0 — 540 tracked</div>
+        <div class="sidebar-version"> Built by Sakshi H N</div>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit" class="sidebar-logout">LOGOUT</button>

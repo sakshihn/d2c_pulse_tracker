@@ -139,6 +139,7 @@ def product_list(request):
     elif sort == 'name_desc':
         products.sort(key=first_letter_key, reverse=True)
 
+    total_count = len(products)
     vendors = Product.objects.values_list('vendor', flat=True).distinct().order_by('vendor')
     brand_stats = (
         Product.objects.values('vendor')
@@ -166,6 +167,7 @@ def product_list(request):
     """)
     return render(request, 'tracking/product_list.html', {
         'products': products,
+        'total_count': total_count,
         'vendors': vendors,
         'selected_vendor': vendor_filter,
         'selected_sort': sort,

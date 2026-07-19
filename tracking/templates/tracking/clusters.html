@@ -4,9 +4,11 @@
     <title>Categories - D2C Pulse Tracker</title>
     {% include 'tracking/_theme.html' %}
     <style>
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: #ddd; border-radius: 4px; overflow: hidden; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: #ddd; border-radius: 4px; overflow: hidden; max-width: 1000px; margin: 0 auto; }
+        .cat-sample { font-size: 11px; color: #7a7a74; line-height: 1.7; }
         .cat-card { background: #fff; padding: 16px 18px; text-decoration: none; color: #1a1a1a; transition: background 0.15s ease; display: block; }
-        .cat-card:hover { background: #fafafa; }
+        .cat-card { transition: background 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s ease, transform 0.2s ease; }
+        .cat-card:hover { background: #fafafa; box-shadow: 0 4px 14px rgba(0,0,0,0.08); transform: translateY(-2px); }
         .cat-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
         .cat-count { font-size: 10px; color: #6b6b64; letter-spacing: 0.5px; margin-bottom: 10px; }
         .cat-sample { font-size: 11px; color: #7a7a74; line-height: 1.6; }

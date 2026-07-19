@@ -126,6 +126,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
@@ -144,3 +147,4 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 LOGIN_REDIRECT_URL = '/products/'
 LOGIN_URL = '/login/'
+STATIC_URL = 'static/'
